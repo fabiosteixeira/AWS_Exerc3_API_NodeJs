@@ -1,0 +1,293 @@
+swagger: '2.0'
+info:
+  description: This is a simple API
+  version: 1.0.0
+  title: Simple Inventory API
+  # put the contact info for your development or API team
+  contact:
+    email: fabio@fabio.vet.br
+
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+# tags are used for organizing operations
+tags:
+- name: Produtos
+  description: Chamadas aos recursos relacionados aos produtos
+
+paths:
+  /categorias:
+    get:
+      tags:
+      - categorias
+      summary: Lista completa de categorias
+      description: Retorna a lista completa de categorias
+      operationId: getCategorias
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Categoria'
+              
+    post:
+      tags:
+      - categorias
+      summary: Adiciona uma nova categoria
+      operationId: addCategoria
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Objeto "categoria" a ser inserida
+        required: true
+        schema:
+          $ref: '#/definitions/Categoria'
+      responses:
+        405:
+          description: Entrada inválida
+              
+  /categorias/{id}:
+    get:
+      tags:
+      - Categorias
+      summary: Busca uma categoria pelo ID
+      description: Retorna uma única categoria pelo ID
+      operationId: getCategoriasById
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: Id da categoria a ser retornada
+        required: true
+        type: integer
+        format: int64
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Categoria'
+        201:
+          description: Id inválido
+        202:
+          description: Categoria não encontrada
+          
+    put:
+      tags:
+      - Categorias
+      summary: Atualiza uma categoria pelo ID
+      description: Atualiza uma única categoria pelo ID
+      operationId: putCategoriasById
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: Id da categoria a ser retornada
+        required: true
+        type: integer
+        format: int64
+      - name: body
+        in: body
+        description: Objeto "categoria" a ser atualizado
+        required: true
+        schema:
+          $ref: '#/definitions/Categoria'
+      responses:
+        200:
+          description: Atualização realizada com sucesso
+          schema:
+            $ref: '#/definitions/Categoria'
+        201:
+          description: Id inválido
+        202:
+          description: Categoria não encontrada
+          
+    delete:
+      tags:
+      - Categorias
+      summary: Deleta uma categoria
+      operationId: deleteCategoria
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: Id da categoria a ser deletada
+        required: true
+        type: integer
+        format: int64
+      responses:
+        400:
+          description: Id inválido
+        404:
+          description: Categoria não encontrada
+
+  /produtos:
+    get:
+      tags:
+      - produtos
+      summary: Lista completa de produtos
+      description: Retorna a lista completa de produtos
+      operationId: getProdutos
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Produto'
+              
+    post:
+      tags:
+      - produtos
+      summary: Adiciona um novo produto
+      operationId: addProduto
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Objeto "produto" a ser inserido
+        required: true
+        schema:
+          $ref: '#/definitions/Produto'
+      responses:
+        405:
+          description: Entrada inválida
+              
+  /produtos/{id}:
+    get:
+      tags:
+      - produtos
+      summary: Busca um produto pelo ID
+      description: Retorna um único produto pelo ID
+      operationId: getProdutosById
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: Id do produto a ser retornado
+        required: true
+        type: integer
+        format: int64
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Produto'
+        201:
+          description: Id inválido
+        202:
+          description: Produto não encontrado
+          
+    put:
+      tags:
+      - produtos
+      summary: Atualiza um produto pelo ID
+      description: Atualiza um único produto pelo ID
+      operationId: putProdutosById
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: Id do produto a ser retornado
+        required: true
+        type: integer
+        format: int64
+      - name: body
+        in: body
+        description: Objeto "produto" a ser atualizado
+        required: true
+        schema:
+          $ref: '#/definitions/Produto'
+      responses:
+        200:
+          description: Atualização realizada com sucesso
+          schema:
+            $ref: '#/definitions/Produto'
+        201:
+          description: Id inválido
+        202:
+          description: Produto não encontrado
+          
+    delete:
+      tags:
+      - produtos
+      summary: Deleta um produto
+      operationId: deleteProduto
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: Id do produto a ser deletado
+        required: true
+        type: integer
+        format: int64
+      responses:
+        400:
+          description: Id inválido
+        404:
+          description: Produto não encontrado
+
+definitions:
+  Categoria:
+    type: object
+    required:
+    - id
+    - descricao
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+        example: Ferramentas
+
+  Produto:
+    type: object
+    required:
+    - id
+    - codigo
+    - nome
+    - categoria
+    properties:
+      id:
+        type: integer
+        format: int64
+        example: 1
+      codigo:
+        type: integer
+        format: int64  
+        example: 1
+      name:
+        type: string
+        example: Martelo
+      categoria:
+        type: object
+        example: Categoria
+
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+# basePath: /fabiosteixeira/Livraria/1.0.0
+schemes:
+ - https
+# Added by API Auto Mocking Plugin
+basePath: /fabiosteixeira/Exercicio3/1.0.0
