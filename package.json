@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/corelioBH/api-rest-nodejs#readme",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "swagger": "^0.7.5"
   }
 }
